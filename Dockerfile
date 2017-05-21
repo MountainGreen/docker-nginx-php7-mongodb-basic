@@ -1,5 +1,5 @@
 FROM phusion/baseimage
-LABEL version="0.0.1"
+LABEL version="0.0.2"
 
 
 # LOCALIZATION ================================================================
@@ -15,6 +15,7 @@ ENV LC_ALL en_US.UTF-8
 
 # setup
 ENV HOME /root
+ENV PATH "$PATH:/usr/local/bin"
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 CMD ["/sbin/my_init"]
@@ -38,8 +39,8 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y nginx-full
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y nodejs
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y npm
 
-# GIT + NANO installation
-RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y git nano
+# GIT + NANO + MC installation
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y git nano mc
 
 # MONGODB installation
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
@@ -76,7 +77,7 @@ ADD build/.bashrc /root/.bashrc
 # Create the MongoDB data directory
 RUN mkdir -p /data/db
 
-# Add MongoDB PHP driver
+# Add MongoDB PHP driver (legacy)
 RUN pecl config-set php_ini /etc/php/7.0/fpm/php.ini
 RUN pecl install mongodb
 
@@ -84,6 +85,9 @@ RUN pecl install mongodb
 RUN echo "extension=mongodb.so" > /etc/php/7.0/fpm/conf.d/20-mongodb.ini && \
     echo "extension=mongodb.so" > /etc/php/7.0/cli/conf.d/20-mongodb.ini && \
     echo "extension=mongodb.so" > /etc/php/7.0/mods-available/mongodb.ini
+
+# Add PHP Library for MongoDB (PHPLIB)
+RUN /usr/local/bin/composer require mongodb/mongodb
 
 # Disable services start
 RUN update-rc.d -f apache2 remove
