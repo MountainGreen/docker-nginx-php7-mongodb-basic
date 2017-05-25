@@ -15,7 +15,7 @@ ENV LC_ALL en_US.UTF-8
 
 # setup
 ENV HOME /root
-ENV PATH "$PATH:/usr/local/bin"
+ENV PATH "$PATH:/usr/local/bin:~/.composer/vendor/laravel/installer"
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 CMD ["/sbin/my_init"]
