@@ -1,12 +1,12 @@
 version: "3"
 services:
-    mongodb-dev:
+    database-dev:
         build: .
         image: mountainsnow/nginx-php7-mongodb-basic:0.0.3
-        container_name: mongodb-dev
+        container_name: database-dev
         ports:
             - "80:80"
             - "27017:27017"
         volumes:
-            - /Users/mountain/Sites/mongodb-dev/web:/var/www/public
-            - /Users/mountain/Sites/mongodb-dev/database:/data/db
+            - /Users/mountain/Sites/database-dev/web:/var/www/public
+            - /Users/mountain/Sites/database-dev/database/mongodb:/data/db
