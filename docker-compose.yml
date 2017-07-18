@@ -2,7 +2,7 @@ version: "3"
 services:
     database-dev:
         build: .
-        image: mountainsnow/nginx-php7-mongodb-basic:0.0.3
+        image: mountainsnow/nginx-php7-mongodb-basic:latest
         container_name: database-dev
         ports:
             - "80:80"
